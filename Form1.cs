@@ -16,7 +16,7 @@ namespace chatbotnew
 {
     public partial class Form1 : Form
     {
-        // Dragging support for custom header
+  
         private bool dragging = false;
         private Point dragCursorPoint;
         private Point dragFormPoint;
@@ -25,7 +25,7 @@ namespace chatbotnew
         private SpeechSynthesizer synthesizer;
         private bool isListening = false;
         private Process pythonProcess;
-        //new
+
         private string currentTaskId = null;
         private string pendingTaskId = null;
         private bool awaitingDeclineReason = false;
@@ -34,12 +34,12 @@ namespace chatbotnew
         private string currentInstruction = "";
         private System.Windows.Forms.Timer updateTimer;
         private static readonly HttpClient httpClient = new HttpClient();
-        //checkOnMoudle
-        private int csIntervalMinutes = 0;  // Context Switching interval in minutes
+      
+        private int csIntervalMinutes = 0;  
         private System.Windows.Forms.Timer statusCheckTimer;
         private bool expectingStatusUpdate = false;
         string pendingTaskName = null;
-        //manualsend
+    
 
 
 
@@ -60,7 +60,7 @@ namespace chatbotnew
 
             InitializeComponent();
             InitializeSpeechComponents();
-            //new
+
             StartUpdateTimer();
             this.KeyPreview = true;
             this.KeyDown += Form1_KeyDown;
@@ -68,7 +68,7 @@ namespace chatbotnew
 
 
         }
-        //new
+  
         private void StartUpdateTimer()
         {
             updateTimer = new System.Windows.Forms.Timer();
@@ -86,9 +86,9 @@ namespace chatbotnew
                     string manualMessage = txtMessage.Text.Trim();
 
                     AddMessage("You (manual): " + manualMessage);
-                    _ = SendManualUpdateToServer(manualMessage); // fire and forget async call
+                    _ = SendManualUpdateToServer(manualMessage); 
 
-                    txtMessage.Clear(); // clear after sending
+                    txtMessage.Clear(); 
                 }
                 else
                 {
@@ -96,7 +96,7 @@ namespace chatbotnew
                 }
             }
         }
-        //by shruti - accept/reject response handling
+      
         private async Task SendTaskAcceptanceStatus(bool isAccepted, string taskId, string employeeId, string reason)
         {
             try
@@ -160,8 +160,6 @@ namespace chatbotnew
                         var result = MessageBox.Show(
                             $"New Task: {data.Task.name}\nDo you accept this task?",
                             "Task Assignment",
-                            //add a function which sends whether accepted or not to main server
-                            //if not accepting also send the reason
                             MessageBoxButtons.YesNo,
                             MessageBoxIcon.Question
                         );
@@ -209,7 +207,6 @@ namespace chatbotnew
             AddMessage("Bot: What’s the update on your task?");
             synthesizer.SpeakAsync("What's the update on your task?");
 
-            // Set flag to expect user's status update next
             expectingStatusUpdate = true;
         }
 
@@ -224,7 +221,7 @@ namespace chatbotnew
             }
 
             statusCheckTimer = new System.Windows.Forms.Timer();
-            statusCheckTimer.Interval = csIntervalMinutes * 60 * 1000; // Convert minutes to milliseconds
+            statusCheckTimer.Interval = csIntervalMinutes * 60 * 1000; 
             statusCheckTimer.Tick += StatusCheckTimer_Tick;
             statusCheckTimer.Start();
         }
@@ -317,7 +314,6 @@ namespace chatbotnew
                 string output = await pythonProcess.StandardOutput.ReadToEndAsync();
                 string error = await pythonProcess.StandardError.ReadToEndAsync();
 
-                // Fix: Replace WaitForExitAsync with Task.Run
                 await Task.Run(() => pythonProcess.WaitForExit());
 
                 if (!string.IsNullOrEmpty(error))
@@ -378,12 +374,12 @@ namespace chatbotnew
             {
                 string baseUrl = "http://127.0.0.1:8000/employee/response";
 
-                // Add query parameters to the URL
-                string taskId = currentTaskId; // Replace with dynamic value if needed
-                string employeeId = "EMP45612"; // Replace with dynamic value if needed
+
+                string taskId = currentTaskId; 
+                string employeeId = "EMP45612";
                 string urlWithParams = $"{baseUrl}?taskid={Uri.EscapeDataString(taskId)}&employeeid={Uri.EscapeDataString(employeeId)}";
 
-                // useresponse is a raw string in JSON format — so we wrap it in quotes
+           
                 string jsonBody = System.Text.Json.JsonSerializer.Serialize(statusMessage);
                 var content = new StringContent(jsonBody, System.Text.Encoding.UTF8, "application/json");
 
@@ -404,12 +400,11 @@ namespace chatbotnew
         {
             try
             {
-                string employeeId = "EMP45612"; // or make it a class-level variable
+                string employeeId = "EMP45612"; 
                 string url = "http://127.0.0.1:8000/employee/response" +
                              "?taskid=" + Uri.EscapeDataString(currentTaskId) +
                              "&employeeid=" + Uri.EscapeDataString(employeeId);
 
-                // Send raw string body for `useresponse`, wrapped in quotes for JSON
                 var content = new StringContent($"\"{statusMessage}\"", Encoding.UTF8, "application/json");
 
                 var response = await httpClient.PostAsync(url, content);
@@ -456,7 +451,7 @@ namespace chatbotnew
                 }
                 else
                 {
-                    // Normal chatbot flow
+                
                     string botResponse = GetBotResponse(userMessage);
                     AddMessage("Bot: " + botResponse);
                     synthesizer.SpeakAsync(botResponse);
