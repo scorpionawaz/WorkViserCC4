@@ -32,12 +32,12 @@ namespace chatbotnew
             panelChat.BorderColor = Color.FromArgb(200, 220, 255);
             panelChat.BorderThickness = 1;
             panelChat.ShadowDecoration.Enabled = true;
-            //panelChat.Location = new Point(12, 12);
+           
             panelChat.Name = "panelChat";
-            //panelChat.Size = new Size(560, 350);
+           
             panelChat.TabIndex = 0;
-            panelChat.Location = new Point(12, 60); // Push it below the header
-            panelChat.Size = new Size(560, 300);    // Reduce height to fit everything
+            panelChat.Location = new Point(12, 60); 
+            panelChat.Size = new Size(560, 300);   
 
             //close
             Guna2Button btnClose = new Guna2Button();
@@ -46,11 +46,11 @@ namespace chatbotnew
             btnClose.Font = new Font("Segoe UI", 12, FontStyle.Bold);
             btnClose.ForeColor = Color.White;
             btnClose.Size = new Size(45, 45);
-            btnClose.Location = new Point(530, 2); // Adjust X as needed
+            btnClose.Location = new Point(530, 2); 
             btnClose.BorderRadius = 6;
             btnClose.HoverState.FillColor = Color.FromArgb(220, 20, 60);
             btnClose.HoverState.ForeColor = Color.White;
-            btnClose.Click += (s, e) => this.Close(); // Close the form
+            btnClose.Click += (s, e) => this.Close(); 
 
 
             // Header panel
@@ -116,7 +116,7 @@ namespace chatbotnew
             ClientSize = new Size(584, 425);
             Controls.Add(headerPanel);
             headerPanel.Controls.Add(btnClose);
-            // Make headerPanel draggable
+           
             headerPanel.MouseDown += (s, e) =>
             {
                 dragging = true;
