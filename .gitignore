@@ -1,0 +1,33 @@
+# 🛑 Python-related ignores
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+*.pyc
+*.pyo
+
+# 🛑 Virtual Environment
+venv/
+.env
+.env.local
+
+# 🛑 Logs & Debugging
+*.log
+logs/
+debug.log
+
+# 🛑 Database & Cache
+*.db
+*.sqlite
+*.pdb
+*.pkl
+*.mypy_cache/
+
+# 🛑 VS Code / IDE Settings
+.vscode/
+.idea/
+*.swp
+
+# 🛑 OS-Specific Files
+.DS_Store
+Thumbs.db
